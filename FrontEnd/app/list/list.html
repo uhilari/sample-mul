@@ -1,0 +1,17 @@
+<h2>Timelog Type List</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Type</th>
+			<th>Budget</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="d in ctrl.data">
+			<td><a href="#!/edit/{{d.timelogTypeId}}" >{{ d.timelogTypeId }}</a></td>
+			<td>{{ d.timelogType }}</td>
+			<td>{{ d.budget }}</td>
+		</tr>
+	</tbody>
+</table>
