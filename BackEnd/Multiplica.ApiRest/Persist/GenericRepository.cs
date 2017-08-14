@@ -1,4 +1,5 @@
 ﻿using Multiplica.ApiRest.Contracts;
+using Multiplica.ApiRest.Models;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Multiplica.ApiRest.Persist
     {
       T entity = Session.Get<T>(id);
       if (entity == null)
-        throw new InvalidOperationException();
+        throw new NotFoundException("Entity Not Found");
       return entity;
     }
   }

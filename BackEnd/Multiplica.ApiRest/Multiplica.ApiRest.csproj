@@ -124,6 +124,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvalidCommandException.cs" />
+    <Compile Include="Models\NotFoundException.cs" />
     <Compile Include="Persist\BaseHibernate.cs" />
     <Compile Include="Persist\GenericRepository.cs" />
     <Compile Include="Persist\SessionHandlerDecorator.cs" />
@@ -135,6 +137,9 @@
     <Compile Include="Models\TimelogTypeModel.cs" />
     <Compile Include="Persist\AllTimelogTypeQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\TimelogTypeGetOneValidator.cs" />
+    <Compile Include="Validators\TimelogTypePutOneValidator.cs" />
+    <Compile Include="Validators\ValidatorHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

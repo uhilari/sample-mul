@@ -84,6 +84,8 @@
     <Compile Include="Persist\AllTimelogTypeQueryTest.cs" />
     <Compile Include="Persist\GenericRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\TimelogTypeGetOneValidatorTest.cs" />
+    <Compile Include="Validators\TimelogTypePutOneValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Multiplica.ApiRest\Multiplica.ApiRest.csproj">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Multiplica.ApiRest.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -26,15 +27,28 @@ namespace Multiplica.ApiRest.Controllers
 
     public static HttpResponseMessage Process(this HttpRequestMessage request, Func<HttpResponseMessage> fnc)
     {
+      Func<HttpStatusCode, string, HttpResponseMessage> genResp = (c, m) =>
+      {
+        var resp = request.CreateResponse(c);
+        resp.ReasonPhrase = m;
+        return resp;
+      };
+
       try
       {
         return fnc();
       }
+      catch(InvalidCommandException ex)
+      {
+        return genResp(HttpStatusCode.BadRequest, ex.Message);
+      }
+      catch (NotFoundException ex)
+      {
+        return genResp(HttpStatusCode.NotFound, ex.Message);
+      }
       catch (Exception ex)
       {
-        var resp = request.CreateResponse(HttpStatusCode.InternalServerError);
-        resp.ReasonPhrase = ex.Message;
-        return resp;
+        return genResp(HttpStatusCode.InternalServerError, ex.Message);
       }
     }
   }

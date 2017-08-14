@@ -27,6 +27,18 @@ namespace Multiplica.ApiRest.Controllers
       _controller.Configuration = new HttpConfiguration();
     }
 
+    private void NotFound(Func<HttpResponseMessage> fnc)
+    {
+      var res = fnc();
+      Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+    }
+
+    private void BadRequest(Func<HttpResponseMessage> fnc)
+    {
+      var res = fnc();
+      Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+    }
+
     private void EsError(Func<HttpResponseMessage> fnc)
     {
       var res = fnc();
@@ -65,13 +77,31 @@ namespace Multiplica.ApiRest.Controllers
         .Setup(c => c.Handle(It.IsAny<TimelogTypePutOneCommand>()))
         .Verifiable();
 
-
-
       var response = _controller.PutOne(2, "TipoA");
 
       Assert.Equal(HttpStatusCode.OK, response.StatusCode);
       Assert.Equal("The Timelog Type has been updated", response.ReasonPhrase);
       _commandManager.VerifyAll();
+    }
+
+    [Fact]
+    public void PutOne_NotFound()
+    {
+      _commandManager
+        .Setup(c => c.Handle(It.IsAny<TimelogTypePutOneCommand>()))
+        .Throws(new NotFoundException());
+
+      NotFound(() => _controller.PutOne(2, "TipoB"));
+    }
+
+    [Fact]
+    public void PutOne_BadRequest()
+    {
+      _commandManager
+        .Setup(c => c.Handle(It.IsAny<TimelogTypePutOneCommand>()))
+        .Throws(new InvalidCommandException());
+
+      BadRequest(() => _controller.PutOne(2, "TipoB"));
     }
 
     [Fact]
@@ -97,6 +127,26 @@ namespace Multiplica.ApiRest.Controllers
       Assert.Equal(HttpStatusCode.OK, response.StatusCode);
       Assert.True(response.TryGetContentValue(out model));
       Assert.Equal(3, model.TimelogTypeId);
+    }
+
+    [Fact]
+    public void GetOne_NotFound()
+    {
+      _commandManager
+        .Setup(c => c.Handle<TimelogTypeGetOneCommand, TimelogTypeModel>(It.IsAny<TimelogTypeGetOneCommand>()))
+        .Throws(new NotFoundException());
+
+      NotFound(() => _controller.GetOne(4));
+    }
+
+    [Fact]
+    public void GetOne_BadRequest()
+    {
+      _commandManager
+        .Setup(c => c.Handle<TimelogTypeGetOneCommand, TimelogTypeModel>(It.IsAny<TimelogTypeGetOneCommand>()))
+        .Throws(new InvalidCommandException());
+
+      BadRequest(() => _controller.GetOne(4));
     }
 
     [Fact]

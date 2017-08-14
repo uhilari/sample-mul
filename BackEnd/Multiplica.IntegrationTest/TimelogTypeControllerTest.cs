@@ -53,12 +53,21 @@ namespace Multiplica.IntegrationTest
     }
 
     [Fact]
-    public void GetOne_500()
+    public void GetOne_400()
+    {
+      var resp = _controller.GetOne(-3);
+
+      Assert.NotNull(resp);
+      Assert.Equal(HttpStatusCode.BadRequest, resp.StatusCode);
+    }
+
+    [Fact]
+    public void GetOne_404()
     {
       var resp = _controller.GetOne(30);
 
       Assert.NotNull(resp);
-      Assert.Equal(HttpStatusCode.InternalServerError, resp.StatusCode);
+      Assert.Equal(HttpStatusCode.NotFound, resp.StatusCode);
     }
 
     [Fact]
@@ -71,12 +80,30 @@ namespace Multiplica.IntegrationTest
     }
 
     [Fact]
-    public void PutOne_500()
+    public void PutOne_400_Id()
+    {
+      var resp = _controller.PutOne(-3, "Tipo 30");
+
+      Assert.NotNull(resp);
+      Assert.Equal(HttpStatusCode.BadRequest, resp.StatusCode);
+    }
+
+    [Fact]
+    public void PutOne_400_Type()
+    {
+      var resp = _controller.PutOne(3, "");
+
+      Assert.NotNull(resp);
+      Assert.Equal(HttpStatusCode.BadRequest, resp.StatusCode);
+    }
+
+    [Fact]
+    public void PutOne_404()
     {
       var resp = _controller.PutOne(30, "Tipo 30");
 
       Assert.NotNull(resp);
-      Assert.Equal(HttpStatusCode.InternalServerError, resp.StatusCode);
+      Assert.Equal(HttpStatusCode.NotFound, resp.StatusCode);
     }
   }
 }

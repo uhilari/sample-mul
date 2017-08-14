@@ -52,7 +52,7 @@ namespace Multiplica.ApiRest.Persist
     [Fact]
     public void Get_ReturnNull()
     {
-      Assert.Throws<InvalidOperationException>(() => _repository.Get<TimelogTypeModel>(3));
+      Assert.Throws<NotFoundException>(() => _repository.Get<TimelogTypeModel>(3));
     }
   }
 }
