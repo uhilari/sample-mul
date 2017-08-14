@@ -1,4 +1,4 @@
-let app = angular.module('app', ['ngRoute']);
+let app = angular.module('app', ['ngRoute', 'ngAnimate', 'toaster']);
 
 function appConfig($routeProvider, $locationProvider) {
 	$locationProvider.html5Mode(false);

@@ -1,10 +1,15 @@
-function timelogTypeEditorController($routeParams, $http) {
+function timelogTypeEditorController($routeParams, $http, toaster) {
 	let ctrl = this;
 
 	ctrl.id = $routeParams.id;
 	$http.get('http://localhost:3397/v1/timelogtypes/' + ctrl.id)
 		.then(function(response) {
 			ctrl.data = response.data;
+		}, function(r) {
+			toaster.pop({
+				type: 'error',
+				body: r.statusText
+			});
 		});
 
 	ctrl.save = function() {
@@ -12,6 +17,11 @@ function timelogTypeEditorController($routeParams, $http) {
 		$http.put('http://localhost:3397/v1/timelogtypes/' + ctrl.id, '"' + ctrl.data.timelogType + '"')
 			.then(function() {
 				history.back();
+			}, function(r) {
+				toaster.pop({
+					type: 'error',
+					body: r.statusText
+				});
 			});
 	};
 
@@ -20,4 +30,4 @@ function timelogTypeEditorController($routeParams, $http) {
 	};
 }
 
-timelogTypeEditorController.$inject = ['$routeParams', '$http'];
+timelogTypeEditorController.$inject = ['$routeParams', '$http', 'toaster'];

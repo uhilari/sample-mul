@@ -8,6 +8,11 @@ function TimelogTypeListController($http) {
 	}).then(function (response) {
 		console.log(response.data);
 		ctrl.data = response.data;
+	}, function(r) {
+		toaster.pop({
+			type: 'error',
+			body: r.statusText
+		});
 	});
 }
 
